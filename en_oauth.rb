@@ -2,12 +2,8 @@
 # Copyright 2012 Evernote Corporation. All rights reserved.
 ##
 
-require 'sinatra'
 enable :sessions
-
-# Load our dependencies and configuration settings
-$LOAD_PATH.push(File.expand_path(File.dirname(__FILE__)))
-require 'evernote_config.rb'
+enable :inline_templates
 
 ##
 # Verify that you have obtained an Evernote API key
