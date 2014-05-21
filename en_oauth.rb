@@ -73,7 +73,7 @@ end
 get '/requesttoken' do
   callback_url = request.url.chomp("requesttoken").concat("callback")
   begin
-    session[:request_token] = client.request_token(:oauth_callback => callback_url)
+    session[:request_token] = client.request_token(oauth_callback: callback_url)
     redirect '/authorize'
   rescue => e
     @last_error = "Error obtaining temporary credentials: #{e.message}"
@@ -104,7 +104,7 @@ get '/callback' do
   end
   session[:oauth_verifier] = params['oauth_verifier']
   begin
-    session[:access_token] = session[:request_token].get_access_token(:oauth_verifier => session[:oauth_verifier])
+    session[:access_token] = session[:request_token].get_access_token(oauth_verifier: session[:oauth_verifier])
     redirect '/list'
   rescue => e
     @last_error = 'Error extracting access token'
