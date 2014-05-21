@@ -7,7 +7,7 @@ enable :sessions
 
 # Load our dependencies and configuration settings
 $LOAD_PATH.push(File.expand_path(File.dirname(__FILE__)))
-require "evernote_config.rb"
+require 'evernote_config.rb'
 
 ##
 # Verify that you have obtained an Evernote API key
@@ -24,7 +24,7 @@ helpers do
   end
 
   def client
-    @client ||= EvernoteOAuth::Client.new(token: auth_token, consumer_key:OAUTH_CONSUMER_KEY, consumer_secret:OAUTH_CONSUMER_SECRET, sandbox: SANDBOX)
+    @client ||= EvernoteOAuth::Client.new(token: auth_token, consumer_key: OAUTH_CONSUMER_KEY, consumer_secret: OAUTH_CONSUMER_SECRET, sandbox: SANDBOX)
   end
 
   def user_store
@@ -71,7 +71,7 @@ end
 # Obtain temporary credentials
 ##
 get '/requesttoken' do
-  callback_url = request.url.chomp("requesttoken").concat("callback")
+  callback_url = request.url.chomp('requesttoken').concat('callback')
   begin
     session[:request_token] = client.request_token(oauth_callback: callback_url)
     redirect '/authorize'
@@ -89,7 +89,7 @@ get '/authorize' do
     redirect session[:request_token].authorize_url
   else
     # You shouldn't be invoking this if you don't have a request token
-    @last_error = "Request token not set."
+    @last_error = 'Request token not set.'
     erb :error
   end
 end
@@ -99,7 +99,7 @@ end
 ##
 get '/callback' do
   unless params['oauth_verifier'] || session['request_token']
-    @last_error = "Content owner did not authorize the temporary credentials"
+    @last_error = 'Content owner did not authorize the temporary credentials'
     halt erb :error
   end
   session[:oauth_verifier] = params['oauth_verifier']
@@ -111,7 +111,6 @@ get '/callback' do
     erb :error
   end
 end
-
 
 ##
 # Access the user's Evernote account and display account data
